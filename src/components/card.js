@@ -20,15 +20,15 @@ const Card = (article) => {
   //   </div>
   // </div>
   //
-  const card =  document.createElement('card')
+  const card = document.createElement('div')
   const headline = document.createElement('div')
-  const author = document.createElement('author')
-  const imgContainer = document.createElement('img-container')
+  const author = document.createElement('div')
+  const imgContainer = document.createElement('div')
   const image = document.createElement('img')
   const span = document.createElement('span')
 
   card.classList.add('card')
-  headline.classList('headline')
+  headline.classList.add('headline')
   author.classList.add('author')
   imgContainer.classList.add('img-container')
 
@@ -42,7 +42,10 @@ const Card = (article) => {
   image.src = article.authorPhoto;
   span.textContent = article.authorName;
 
-return card;
+  headline.addEventListener('click', () => console.log(`${element} has been clicked`));
+
+
+  return card;
 }
 
 const cardAppender = (selector) => {
@@ -54,24 +57,36 @@ const cardAppender = (selector) => {
   // Create a card from each and every article object in the response, using the Card component.
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
-const appendHere = document.querySelector(selector);
+  const appendHere = document.querySelector(selector);
   axios.get('http://localhost:5001/api/articles')
-    .then( res => {
-      const data = res.data.articles;
-      const keys = object.keys(data);
-
-
-        keys.forEach(obj => {
-                
-              for (let x = 0; x < obj.length; x++){
-                console.log(data.obj.x)
-              return appendHere.appendChild(Card(obj[0]))
-              }
+    .then(res => {
+      const bootstrap = res.data.articles.bootstrap;
+      bootstrap.forEach(obj => {
+        appendHere.appendChild(Card(obj))
       })
-    })
-    .catch (error => 
-      console.log("NOT WORKING")
-    )
-}
 
+      const javascript = res.data.articles.javascript;
+      javascript.forEach(obj => {
+        appendHere.appendChild(Card(obj))
+      })
+
+      const node = res.data.articles.node;
+      node.forEach(obj => {
+        appendHere.appendChild(Card(obj))
+      })
+
+      const jquery = res.data.articles.jquery;
+      jquery.forEach(obj => {
+        appendHere.appendChild(Card(obj))
+      })
+
+      const technology = res.data.articles.technology;
+      technology.forEach(obj => {
+        appendHere.appendChild(Card(obj))
+      })
+
+
+
+    })
+  }
 export { Card, cardAppender }
